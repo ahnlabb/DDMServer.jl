@@ -1,0 +1,3 @@
+[deps]
+DDMServer = "4f18b3d6-c20d-4cd4-957b-c86edd7eea66"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
