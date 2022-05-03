@@ -3,6 +3,14 @@ uuid = "4f18b3d6-c20d-4cd4-957b-c86edd7eea66"
 authors = ["Johannes Ahnlide <johannes@voxel.se> and contributors"]
 version = "0.1.0"
 
+[deps]
+DDMFramework = "1b294ee1-80a2-4bfa-8e62-95fa73f8a955"
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
 [compat]
 julia = "1"
 
