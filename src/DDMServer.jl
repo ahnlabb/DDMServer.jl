@@ -1,10 +1,26 @@
 module DDMServer
-using DDMFramework
 using Logging
+import Pkg
+
+if !isfile(joinpath(first(DEPOT_PATH), "prefs", "PyCall"))
+    Pkg.build("PyCall")
+end
+
+using DDMFramework
 using Sockets
-using PyCall
 using TOML
 using ArgParse
+using DataFrames
+
+py_file_loader = try
+    include("python_plugins.jl")
+    py_file
+catch ex
+    @warn "failed to initialize Python plugins" exception=(ex,catch_backtrace())
+    function py_fail_loader(path)
+        @warn "failed to load Python plugin at $path, Python plugins not initialized"
+    end
+end
 
 function get_args()
     s = ArgParseSettings()
@@ -17,29 +33,15 @@ function get_args()
     parse_args(s)
 end
 
-function __init__()
-    mp(analysis, name, keyfun, keytest) = DDMFramework.multipoint(analysis, name, keyfun; keytest)
-
-    py"""
-    import operator
-    def multipoint(analysis, name, keyfun, keytest=operator.eq):
-        return $(mp)(analysis, name, keyfun, keytest)
-
-    def add_plugin(plugin):
-        return $(add_plugin)(plugin)
-    """
-end
-
-function py_file(file)
-    m = PyCall.pynamespace(@__MODULE__)
-    PyCall.pyeval_(read(file, String), m, m, PyCall.Py_file_input, file)
-end
-
 function jl_project(path)
     project_file = joinpath(path, "Project.toml")
     if isfile(project_file)
         project = TOML.parsefile(project_file)
-        Base.require(Main, Symbol(project["name"]))
+        try
+            Base.require(Main, Symbol(project["name"]))
+        catch e
+            @warn "failed to load Julia plugin at $path"
+        end
     end
 end
 
@@ -63,7 +65,7 @@ function julia_main()::Cint
                 tryloaders(
                            joinpath(plugins_dir, p),
                            jl_project,
-                           py_file
+                           py_file_loader
                           )
             end
         end
