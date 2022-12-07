@@ -36,9 +36,10 @@ jobs:
         run: ls -a
       - name: Pkg.add("PackageCompiler")
         run: julia -e 'using Pkg; Pkg.add("PackageCompiler")'
+      - name: Permission to compile 
+        run: chmod +x ./compile.sh
       - name: create_app("DDMServer", "DDMServerCompiled")
         run: ./compile.sh 
-
       - name: zip package
         run: zip -r DDMServerCompiled DDMServerCompiled
       - name: Create Release
