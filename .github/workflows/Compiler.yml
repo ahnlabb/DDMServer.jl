@@ -35,9 +35,9 @@ jobs:
       - name: ls -a
         run: ls -a
       - name: Pkg.add("PackageCompiler")
-        run: julia -e 'using Pkg; Pkg.add(PackageCompiler)'
+        run: julia -e 'using Pkg; Pkg.add("PackageCompiler")'
       - name: create_app("DDMServer", "DDMServerCompiled")
-        run: julia -e 'using PackageCompiler; create_app("DDMServer", "DDMServerCompiled")'
+        run: ./compile.sh 
 
       - name: zip package
         run: zip -r DDMServerCompiled DDMServerCompiled
