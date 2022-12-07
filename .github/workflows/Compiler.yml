@@ -41,11 +41,12 @@ jobs:
           registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
-      - name: Prepare PyCall
+      - name: Pkg.add("CombinedParsers#master")
+        run: julia --projects=. -e 'using Pkg; Pkg.add("CombinedParsers#master")'
+      - name: Pkg.add("PyCall")
         run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
       - name: Pkg.add("PackageCompiler")
         run: julia --project=. -e 'using Pkg; Pkg.add("PackageCompiler")'
-
       - name: Permission to compile 
         run: chmod +x ./compile.sh 
       - name: Compile using ./compile.sh
