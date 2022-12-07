@@ -29,6 +29,11 @@ jobs:
           - windows-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Prepare PyCall
+        run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
