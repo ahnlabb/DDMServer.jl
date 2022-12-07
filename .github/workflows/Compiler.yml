@@ -32,10 +32,15 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
+      - uses: julia-actions/add-julia-registry@v1
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
       - name: Pkg.add("PackageCompiler")
-        run: julia -e 'using Pkg; Pkg.add("PackageCompiler")'
+        run: julia --project=. -e 'using Pkg; Pkg.add("PackageCompiler")'
+
       - name: Permission to compile 
         run: chmod +x ./compile.sh 
       - name: Compile using ./compile.sh
