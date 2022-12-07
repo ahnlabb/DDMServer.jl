@@ -32,7 +32,6 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
-      - name: 
       - uses: julia-actions/add-julia-registry@v1
         with:
           key: ${{ secrets.DOCUMENTER_KEY }}
