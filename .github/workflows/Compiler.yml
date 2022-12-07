@@ -32,9 +32,10 @@ jobs:
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
+      - name: 
       - uses: julia-actions/add-julia-registry@v1
         with:
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.DOCUMENTER_KEY }}
           registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
