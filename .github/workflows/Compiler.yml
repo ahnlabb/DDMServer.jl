@@ -41,6 +41,8 @@ jobs:
           registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
+      - name: Pkg.instantiate()
+        run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
       - name: Pkg.add("PyCall")
         run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
       - name: Pkg.add("PackageCompiler")
