@@ -41,8 +41,6 @@ jobs:
           registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
-      - name: Pkg.add("CombinedParsers#master")
-        run: julia --project=. -e 'using Pkg; Pkg.add("CombinedParsers#master")'
       - name: Pkg.add("PyCall")
         run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
       - name: Pkg.add("PackageCompiler")
