@@ -32,8 +32,6 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-      - name: Prepare PyCall
-        run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
@@ -43,6 +41,8 @@ jobs:
           registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
+      - name: Prepare PyCall
+        run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
       - name: Pkg.add("PackageCompiler")
         run: julia --project=. -e 'using Pkg; Pkg.add("PackageCompiler")'
 
