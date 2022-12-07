@@ -37,7 +37,8 @@ jobs:
       - name: Pkg.add("PackageCompiler")
         run: julia -e 'using Pkg; Pkg.add("PackageCompiler")'
       - name: Permission to compile 
-        run: chmod +x ./compile.sh
+        run: chmod +x ./compile.sh 
+      - name: Compile using ./compile.sh
         run: ./compile.sh 
       - name: zip package
         run: zip -r compiled compiled
