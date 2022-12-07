@@ -1,0 +1,76 @@
+name: Systems compiler 
+on:
+  pull_request:
+    branches:
+      - 'master'
+      - 'release-*'
+  push:
+    branches:
+      - 'master'
+      - 'release-*'
+    tags: '*'
+concurrency:
+  group: ${{ github.head_ref || github.ref_name || github.run_id }} 
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        julia-version:
+          - '1.8'
+        julia-arch:
+          - 'x64'
+          - 'x86'
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - uses: julia-actions/setup-julia@latest
+        with:
+          version: ${{ matrix.julia-version }}
+      - uses: julia-actions/add-julia-registry@v1
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          registry: nordenfeltLab/NordenfeltLabRegistry
+      - name: ls -a
+        run: ls -a
+      - name: Pkg.instantiate()
+        run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+      - name: Pkg.add("PyCall")
+        run: julia --project=. -e 'using Pkg; Pkg.add("PyCall")'
+      - name: Pkg.add("PackageCompiler")
+        run: julia --project=. -e 'using Pkg; Pkg.add("PackageCompiler")'
+      - name: Permission to compile 
+        run: chmod +x ./compile.sh 
+      - name: Compile using ./compile.sh
+        run: ./compile.sh 
+      - name: zip package
+        run: zip -r compiled compiled
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload build
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DDMServerCompiled.zip
+          asset_name: DDMServerCompiled.zip
+          asset_content_type: application/zip
+

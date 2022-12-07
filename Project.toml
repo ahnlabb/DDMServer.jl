@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [deps]
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+CombinedParsers = "5ae71ed2-6f8a-4ed1-b94f-e14e8158f19e"
 DDMFramework = "1b294ee1-80a2-4bfa-8e62-95fa73f8a955"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
