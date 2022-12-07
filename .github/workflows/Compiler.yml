@@ -34,7 +34,7 @@ jobs:
           version: ${{ matrix.julia-version }}
       - uses: julia-actions/add-julia-registry@v1
         with:
-          key: ${{ secrets.DOCUMENTER_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           registry: nordenfeltLab/NordenfeltLabRegistry
       - name: ls -a
         run: ls -a
