@@ -8,6 +8,7 @@ on:
     branches:
       - 'master'
       - 'release-*'
+      - 'oa/actions'
     tags: '*'
 concurrency:
   group: ${{ github.head_ref || github.ref_name || github.run_id }} 
