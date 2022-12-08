@@ -27,6 +27,9 @@ jobs:
           - ubuntu-latest
           - macOS-latest
           - windows-latest
+        exclude:
+          - os: macOS-latest
+            julia-arch: x86
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
