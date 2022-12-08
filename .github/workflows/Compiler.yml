@@ -76,7 +76,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./DDMServerCompiled.zip
-          asset_name: DDMServerCompiled.zip
+          asset_path: ./compiled.zip
+          asset_name: compiled.zip
           asset_content_type: application/zip
 
