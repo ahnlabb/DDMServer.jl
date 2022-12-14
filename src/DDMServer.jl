@@ -35,11 +35,14 @@ end
 
 function jl_project(path)
     project_file = joinpath(path, "Project.toml")
+    println("Loading Julia project at $project_file")
     if isfile(project_file)
         project = TOML.parsefile(project_file)
         try
+            Pkg.add(Pkg.PackageSpec(; path=path))
             Base.require(Main, Symbol(project["name"]))
         catch e
+            Base.showerror(stderr, e, catch_backtrace())
             @warn "failed to load Julia plugin at $path"
         end
     end
