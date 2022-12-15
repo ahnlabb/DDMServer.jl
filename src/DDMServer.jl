@@ -35,7 +35,7 @@ end
 
 function jl_project(path)
     project_file = joinpath(path, "Project.toml")
-    println("Loading Julia project at $project_file")
+    @info "Loading Julia project at $project_file"
     if isfile(project_file)
         project = TOML.parsefile(project_file)
         try
